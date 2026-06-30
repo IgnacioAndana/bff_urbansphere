@@ -8,6 +8,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
@@ -22,7 +23,7 @@ async function bootstrap(): Promise<void> {
   app.setGlobalPrefix('api');
 
   const expressApp = app.getHttpAdapter().getInstance();
-  expressApp.get('/', (_req, res) => {
+  expressApp.get('/', (_req: Request, res: Response) => {
     res.json({ status: 'BFF Urbansphere running' });
   });
 
