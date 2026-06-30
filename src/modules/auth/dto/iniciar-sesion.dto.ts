@@ -1,0 +1,20 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+
+export class IniciarSesionDto {
+  @ApiProperty({ example: 'juan@example.com' })
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({ example: 'SecurePass123!' })
+  @IsString()
+  @IsNotEmpty()
+  contrasena: string;
+}
+
+export class RefrescarTokenDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  tokenRefresco: string;
+}
