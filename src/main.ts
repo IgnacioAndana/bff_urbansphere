@@ -20,6 +20,12 @@ async function bootstrap(): Promise<void> {
   });
 
   app.setGlobalPrefix('api');
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.get('/', (_req, res) => {
+    res.json({ status: 'BFF Urbansphere running' });
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
