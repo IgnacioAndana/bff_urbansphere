@@ -22,7 +22,10 @@ export class CrearUsuarioDto {
   @MinLength(8)
   contrasena: string;
 
-  @ApiPropertyOptional({ example: 2 })
+  @ApiPropertyOptional({
+    example: 3,
+    description: 'Solo admin con JWT puede asignar rol al crear usuario',
+  })
   @IsOptional()
   rolId?: number;
 }

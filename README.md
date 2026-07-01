@@ -83,7 +83,11 @@ El BFF **no tiene base de datos**. Reenvía las peticiones HTTP a los microservi
 | GET | `/api/agregacion/proyectos/:id/completo` | Proyecto + propiedades + imágenes + características + tours |
 | GET | `/api/agregacion/propiedades/:id/completa` | Propiedad + imágenes + características + tours |
 
-El resto de rutas replica la misma API de los microservicios (usuarios, autenticación, roles, permisos, proyectos, propiedades, imágenes, características, tours).
+El resto de rutas replica la API de los microservicios:
+
+**MS Usuarios:** usuarios, autenticación (incl. restablecimiento de contraseña), roles, solicitudes de interés.
+
+**MS Proyectos:** proyectos, propiedades, imágenes, características, tours.
 
 ---
 
@@ -129,7 +133,3 @@ El resto de rutas replica la misma API de los microservicios (usuarios, autentic
 
 ---
 
-## Referencias
-
-- [MS Usuarios](./ms_users.md)
-- [MS Proyectos](./ms_proyectos.md)

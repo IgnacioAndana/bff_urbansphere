@@ -13,7 +13,7 @@ import { ProxyModule } from './proxy/proxy.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
-import { PermissionsModule } from './modules/permissions/permissions.module';
+import { SolicitudesInteresModule } from './modules/solicitudes-interes/solicitudes-interes.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { PropertiesModule } from './modules/properties/properties.module';
 import { PropertyImagesModule } from './modules/property-images/property-images.module';
@@ -31,7 +31,7 @@ import { AgregacionModule } from './modules/agregacion/agregacion.module';
     UsersModule,
     AuthModule,
     RolesModule,
-    PermissionsModule,
+    SolicitudesInteresModule,
     ProjectsModule,
     PropertiesModule,
     PropertyImagesModule,

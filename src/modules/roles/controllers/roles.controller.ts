@@ -10,7 +10,7 @@ export class RolesControlador {
 
   @Get()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Listar roles (proxy → MS Usuarios)' })
+  @ApiOperation({ summary: 'Listar roles (admin, agent — proxy → MS Usuarios)' })
   listarRoles(@TokenBearer() token: string) {
     return this.clienteUsuarios.solicitar('GET', '/roles', { token });
   }

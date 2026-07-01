@@ -7,8 +7,8 @@ import { CrearUsuarioDto } from '../dto/crear-usuario.dto';
 export class UsuariosProxyServicio {
   constructor(private readonly clienteUsuarios: ClienteUsuariosServicio) {}
 
-  crearUsuario(dto: CrearUsuarioDto) {
-    return this.clienteUsuarios.solicitar('POST', '/usuarios', { cuerpo: dto });
+  crearUsuario(dto: CrearUsuarioDto, token?: string) {
+    return this.clienteUsuarios.solicitar('POST', '/usuarios', { cuerpo: dto, token });
   }
 
   listarUsuarios(token: string) {

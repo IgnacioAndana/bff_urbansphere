@@ -26,22 +26,27 @@ export class UsuariosControlador {
   constructor(private readonly usuariosProxy: UsuariosProxyServicio) {}
 
   @Post()
-  @ApiOperation({ summary: 'Registrar un nuevo usuario (proxy → MS Usuarios)' })
+  @ApiOperation({
+    summary: 'Registro público (sin JWT, rol user) o crear usuario (JWT admin)',
+  })
   @ApiResponse({ status: 201 })
-  crearUsuario(@Body() dto: CrearUsuarioDto) {
-    return this.usuariosProxy.crearUsuario(dto);
+  crearUsuario(
+    @Body() dto: CrearUsuarioDto,
+    @TokenBearer() token?: string,
+  ) {
+    return this.usuariosProxy.crearUsuario(dto, token);
   }
 
   @Get()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Listar todos los usuarios (proxy → MS Usuarios)' })
+  @ApiOperation({ summary: 'Listar usuarios (admin, agent)' })
   listarUsuarios(@TokenBearer() token: string) {
     return this.usuariosProxy.listarUsuarios(token);
   }
 
   @Get(':id')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Obtener usuario por ID (proxy → MS Usuarios)' })
+  @ApiOperation({ summary: 'Obtener usuario por ID (admin, agent)' })
   buscarUsuarioPorId(
     @Param('id', ParseIntPipe) id: number,
     @TokenBearer() token: string,
@@ -51,7 +56,9 @@ export class UsuariosControlador {
 
   @Patch(':id')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Actualizar usuario (proxy → MS Usuarios)' })
+  @ApiOperation({
+    summary: 'Actualizar perfil propio o cualquier usuario (admin/agent)',
+  })
   actualizarUsuario(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ActualizarUsuarioDto,
@@ -63,7 +70,7 @@ export class UsuariosControlador {
   @Delete(':id')
   @HttpCode(204)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Eliminar usuario (proxy → MS Usuarios)' })
+  @ApiOperation({ summary: 'Eliminar usuario (solo admin)' })
   async eliminarUsuario(
     @Param('id', ParseIntPipe) id: number,
     @TokenBearer() token: string,
