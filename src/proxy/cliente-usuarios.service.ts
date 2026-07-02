@@ -32,7 +32,7 @@ export class ClienteUsuariosServicio {
     return this.proxy.solicitar<T>({
       baseUrl: this.urlBase,
       metodo,
-      ruta: ruta.startsWith('/api') ? ruta : `/api${ruta}`,
+      ruta: ruta.startsWith('/') ? ruta : `/${ruta}`,
       cuerpo: opciones?.cuerpo,
       token: opciones?.token,
       params: opciones?.params,

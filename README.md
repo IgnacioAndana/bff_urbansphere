@@ -84,7 +84,7 @@ En producción con subdominio `api.tudominio.com`, las rutas quedan así: `https
 |--------|------|-------------|
 | GET | `/agregacion/proyectos/:id/completo` | Proyecto + imágenes + tipologías + equipamiento |
 
-El resto de rutas replica la API de los microservicios (sin prefijo `/api` en el BFF; internamente el proxy sigue llamando a `/api/...` en cada MS):
+El resto de rutas replica la misma estructura que los microservicios (sin prefijo `/api` en ninguna capa: BFF, MS Usuarios y MS Proyectos usan rutas en la raíz):
 
 **MS Usuarios:** usuarios, autenticación, roles, solicitudes de interés, favoritos.
 
