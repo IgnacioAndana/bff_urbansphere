@@ -31,7 +31,16 @@ export class ProyectoEquipamientoControlador {
     @TokenBearer() token: string,
   ) {
     return this.clienteProyectos.solicitar('PUT', `/proyectos/${proyectoId}/equipamiento`, {
-      cuerpo: dto,
+      cuerpo: {
+        gimnasio: dto.gimnasio,
+        quincho: dto.quincho,
+        areasVerdes: dto.areasVerdes,
+        bicicletero: dto.bicicletero,
+        piscina: dto.piscina,
+        juegosInfantiles: dto.juegosInfantiles,
+        gourmetLounge: dto.gourmetLounge,
+        coworkingRoom: dto.coworkingRoom,
+      },
       token,
     });
   }
