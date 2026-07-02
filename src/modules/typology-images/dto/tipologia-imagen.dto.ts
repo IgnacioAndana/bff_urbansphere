@@ -1,51 +1,51 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { Allow } from 'class-validator';
 
+/** Proxy passthrough: el MS normaliza booleanos/enteros desde multipart. */
 export class CrearTipologiaImagenDto {
   @ApiPropertyOptional({
     example:
       'https://urbansphere-images.s3.us-east-1.amazonaws.com/proyectos/1/tipologias/2/planta.jpg',
   })
-  @IsOptional()
-  @IsString()
-  urlS3?: string;
+  @Allow()
+  urlS3?: unknown;
 
   @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean()
-  esPortada?: boolean;
+  @Allow()
+  esPortada?: unknown;
 
   @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean()
-  esPanoramica360?: boolean;
+  @Allow()
+  esPanoramica360?: unknown;
 
   @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  orden?: number;
+  @Allow()
+  orden?: unknown;
 }
 
 export class ActualizarTipologiaImagenDto {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  urlS3?: string;
+  @Allow()
+  id?: unknown;
+
+  @Allow()
+  tipologiaId?: unknown;
+
+  @Allow()
+  creadoEn?: unknown;
 
   @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean()
-  esPortada?: boolean;
+  @Allow()
+  urlS3?: unknown;
 
   @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean()
-  esPanoramica360?: boolean;
+  @Allow()
+  esPortada?: unknown;
 
   @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  orden?: number;
+  @Allow()
+  esPanoramica360?: unknown;
+
+  @ApiPropertyOptional()
+  @Allow()
+  orden?: unknown;
 }

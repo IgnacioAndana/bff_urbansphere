@@ -64,17 +64,22 @@ export class ProyectoImagenesControlador {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Actualizar imagen (proxy → MS Proyectos)' })
+  @UseInterceptors(FileInterceptor('archivo'))
+  @ApiConsumes('multipart/form-data', 'application/json')
+  @ApiOperation({
+    summary: 'Actualizar imagen (metadatos JSON o multipart con archivo opcional — proxy → MS Proyectos)',
+  })
   actualizarImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ActualizarProyectoImagenDto,
     @TokenBearer() token: string,
+    @UploadedFile() archivo?: Express.Multer.File,
   ) {
     return this.clienteProyectos.solicitar(
       'PATCH',
       `/proyectos/${proyectoId}/imagenes/${id}`,
-      { cuerpo: dto, token },
+      { cuerpo: dto, token, archivo },
     );
   }
 

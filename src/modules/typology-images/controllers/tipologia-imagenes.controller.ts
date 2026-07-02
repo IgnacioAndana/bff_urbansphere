@@ -61,18 +61,24 @@ export class TipologiaImagenesControlador {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Actualizar imagen de tipología (proxy → MS Proyectos)' })
+  @UseInterceptors(FileInterceptor('archivo'))
+  @ApiConsumes('multipart/form-data', 'application/json')
+  @ApiOperation({
+    summary:
+      'Actualizar imagen de tipología (metadatos JSON o multipart con archivo opcional — proxy → MS Proyectos)',
+  })
   actualizarImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @Param('tipologiaId', ParseIntPipe) tipologiaId: number,
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ActualizarTipologiaImagenDto,
     @TokenBearer() token: string,
+    @UploadedFile() archivo?: Express.Multer.File,
   ) {
     return this.clienteProyectos.solicitar(
       'PATCH',
       `/proyectos/${proyectoId}/tipologias/${tipologiaId}/imagenes/${id}`,
-      { cuerpo: dto, token },
+      { cuerpo: dto, token, archivo },
     );
   }
 
