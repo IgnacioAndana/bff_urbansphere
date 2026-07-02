@@ -14,6 +14,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { SolicitudesInteresModule } from './modules/solicitudes-interes/solicitudes-interes.module';
+import { SolicitudesContactoModule } from './modules/solicitudes-contacto/solicitudes-contacto.module';
 import { FavoritosModule } from './modules/favoritos/favoritos.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { ProjectImagesModule } from './modules/project-images/project-images.module';
@@ -33,6 +34,7 @@ import { AgregacionModule } from './modules/agregacion/agregacion.module';
     AuthModule,
     RolesModule,
     SolicitudesInteresModule,
+    SolicitudesContactoModule,
     FavoritosModule,
     ProjectsModule,
     ProjectImagesModule,
