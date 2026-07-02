@@ -5,8 +5,8 @@ Backend for Frontend (BFF) de la plataforma inmobiliaria **UrbanSphere**. Expone
 | Dato | Valor |
 |------|-------|
 | Puerto por defecto | `3000` |
-| Prefijo API | `/api` |
-| Swagger | `/api/docs` |
+| Prefijo API | *(ninguno — rutas en la raíz)* |
+| Swagger | `/docs` |
 
 ---
 
@@ -51,7 +51,7 @@ Salida esperada:
 
 ```text
 BFF UrbanSphere en http://localhost:3000
-Swagger: http://localhost:3000/api/docs
+Swagger: http://localhost:3000/docs
 ```
 
 ### Producción
@@ -78,16 +78,17 @@ El BFF **no tiene base de datos**. Reenvía las peticiones HTTP a los microservi
 
 ### Endpoints de agregación (valor añadido del BFF)
 
+En producción con subdominio `api.tudominio.com`, las rutas quedan así: `https://api.tudominio.com/usuarios`, `https://api.tudominio.com/proyectos`, etc.
+
 | Método | Ruta | Descripción |
 |--------|------|-------------|
-| GET | `/api/agregacion/proyectos/:id/completo` | Proyecto + propiedades + imágenes + características + tours |
-| GET | `/api/agregacion/propiedades/:id/completa` | Propiedad + imágenes + características + tours |
+| GET | `/agregacion/proyectos/:id/completo` | Proyecto + imágenes + tipologías + equipamiento |
 
-El resto de rutas replica la API de los microservicios:
+El resto de rutas replica la API de los microservicios (sin prefijo `/api` en el BFF; internamente el proxy sigue llamando a `/api/...` en cada MS):
 
-**MS Usuarios:** usuarios, autenticación (incl. restablecimiento de contraseña), roles, solicitudes de interés.
+**MS Usuarios:** usuarios, autenticación, roles, solicitudes de interés, favoritos.
 
-**MS Proyectos:** proyectos, propiedades, imágenes, características, tours.
+**MS Proyectos:** proyectos, imágenes, tipologías, imágenes de tipología, equipamiento.
 
 ---
 
@@ -95,10 +96,10 @@ El resto de rutas replica la API de los microservicios:
 
 1. Levantar MS Usuarios y MS Proyectos
 2. Levantar el BFF
-3. Registrar usuario: `POST /api/usuarios`
-4. Iniciar sesión: `POST /api/autenticacion/iniciar-sesion`
+3. Registrar usuario: `POST /usuarios`
+4. Iniciar sesión: `POST /autenticacion/iniciar-sesion`
 5. Usar `tokenAcceso` en Swagger (**Authorize**) o en el header `Authorization`
-6. Consumir proyectos, propiedades, etc. desde el frontend apuntando solo al BFF
+6. Consumir proyectos, favoritos, etc. desde el frontend apuntando solo al BFF
 
 ---
 
@@ -127,9 +128,14 @@ El resto de rutas replica la API de los microservicios:
 | Problema | Posible causa | Solución |
 |----------|---------------|----------|
 | `502 Bad Gateway` | Microservicio caído | Verifica que MS Usuarios y MS Proyectos estén activos |
-| `401 Unauthorized` | Token inválido o expirado | Inicia sesión de nuevo en `/api/autenticacion/iniciar-sesion` |
+| `401 Unauthorized` | Token inválido o expirado | Inicia sesión de nuevo en `/autenticacion/iniciar-sesion` |
 | CORS bloqueado | Origen no permitido | Ajusta `CORS_ORIGIN` en `.env` |
 | Puerto en uso | Otro proceso en 3000 | Cambia `PORT` en `.env` |
 
 ---
+
+## Referencias
+
+- [MS Usuarios](./context/readme_ms_usuarios.md)
+- [MS Proyectos](./context/readme_ms_proyectos.md)
 

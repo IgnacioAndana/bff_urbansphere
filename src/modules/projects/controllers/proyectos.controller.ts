@@ -22,13 +22,15 @@ export class ProyectosControlador {
   constructor(private readonly proyectosProxy: ProyectosProxyServicio) {}
 
   @Post()
-  @ApiOperation({ summary: 'Crear proyecto (proxy → MS Proyectos)' })
+  @ApiOperation({ summary: 'Crear proyecto (admin, agent — proxy → MS Proyectos)' })
   crearProyecto(@Body() dto: CrearProyectoDto, @TokenBearer() token: string) {
     return this.proyectosProxy.crearProyecto(dto, token);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar proyectos (proxy → MS Proyectos)' })
+  @ApiOperation({
+    summary: 'Listar proyectos (user: solo activos — proxy → MS Proyectos)',
+  })
   listarProyectos(@TokenBearer() token: string) {
     return this.proyectosProxy.listarProyectos(token);
   }
@@ -43,7 +45,7 @@ export class ProyectosControlador {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Actualizar proyecto (proxy → MS Proyectos)' })
+  @ApiOperation({ summary: 'Actualizar proyecto (admin, agent — proxy → MS Proyectos)' })
   actualizarProyecto(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ActualizarProyectoDto,
@@ -54,7 +56,7 @@ export class ProyectosControlador {
 
   @Delete(':id')
   @HttpCode(204)
-  @ApiOperation({ summary: 'Eliminar proyecto (proxy → MS Proyectos)' })
+  @ApiOperation({ summary: 'Eliminar proyecto (admin, agent — proxy → MS Proyectos)' })
   async eliminarProyecto(
     @Param('id', ParseIntPipe) id: number,
     @TokenBearer() token: string,

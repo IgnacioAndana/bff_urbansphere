@@ -2,7 +2,7 @@
  * Archivo: main.ts
  * Ubicación: src
  * Tipo: Punto de entrada del BFF
- * Contenido: bootstrap NestJS, CORS, prefijo /api, validación global y Swagger
+ * Contenido: bootstrap NestJS, CORS, validación global y Swagger (sin prefijo /api)
  */
 
 import { ValidationPipe } from '@nestjs/common';
@@ -19,8 +19,6 @@ async function bootstrap(): Promise<void> {
     origin: origenCors === '*' ? true : origenCors.split(',').map((o) => o.trim()),
     credentials: true,
   });
-
-  app.setGlobalPrefix('api');
 
   const expressApp = app.getHttpAdapter().getInstance();
   expressApp.get('/', (_req: Request, res: Response) => {
@@ -45,12 +43,12 @@ async function bootstrap(): Promise<void> {
     .build();
 
   const documento = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, documento);
+  SwaggerModule.setup('docs', app, documento);
 
   const puerto = process.env.PORT || 3000;
   await app.listen(puerto);
   console.log(`BFF UrbanSphere en http://localhost:${puerto}`);
-  console.log(`Swagger: http://localhost:${puerto}/api/docs`);
+  console.log(`Swagger: http://localhost:${puerto}/docs`);
 }
 
 bootstrap();

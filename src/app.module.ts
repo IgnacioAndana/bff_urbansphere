@@ -14,11 +14,12 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { SolicitudesInteresModule } from './modules/solicitudes-interes/solicitudes-interes.module';
+import { FavoritosModule } from './modules/favoritos/favoritos.module';
 import { ProjectsModule } from './modules/projects/projects.module';
-import { PropertiesModule } from './modules/properties/properties.module';
-import { PropertyImagesModule } from './modules/property-images/property-images.module';
-import { PropertyFeaturesModule } from './modules/property-features/property-features.module';
-import { VirtualToursModule } from './modules/virtual-tours/virtual-tours.module';
+import { ProjectImagesModule } from './modules/project-images/project-images.module';
+import { TypologiesModule } from './modules/typologies/typologies.module';
+import { TypologyImagesModule } from './modules/typology-images/typology-images.module';
+import { ProjectAmenitiesModule } from './modules/project-amenities/project-amenities.module';
 import { AgregacionModule } from './modules/agregacion/agregacion.module';
 
 @Module({
@@ -32,11 +33,12 @@ import { AgregacionModule } from './modules/agregacion/agregacion.module';
     AuthModule,
     RolesModule,
     SolicitudesInteresModule,
+    FavoritosModule,
     ProjectsModule,
-    PropertiesModule,
-    PropertyImagesModule,
-    PropertyFeaturesModule,
-    VirtualToursModule,
+    ProjectImagesModule,
+    TypologiesModule,
+    TypologyImagesModule,
+    ProjectAmenitiesModule,
     AgregacionModule,
   ],
   providers: [
