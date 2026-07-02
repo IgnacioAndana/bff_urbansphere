@@ -90,6 +90,8 @@ El resto de rutas replica la API de los microservicios (sin prefijo `/api` en el
 
 **MS Proyectos:** proyectos, imágenes, tipologías, imágenes de tipología, equipamiento.
 
+> Las imágenes en S3 las gestiona **MS Proyectos** (bucket `urbansphere-images`, rutas `proyectos/{id}/galeria/` y `proyectos/{id}/tipologias/{tipologiaId}/`). El BFF solo reenvía la petición; no requiere variables `AWS_*`.
+
 ---
 
 ## Flujo recomendado
