@@ -1,19 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsInt, IsNotEmpty, IsPositive, IsString, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, IsPositive } from 'class-validator';
 
 export class CrearSolicitudInteresDto {
-  @ApiProperty({ example: 1, description: 'ID del proyecto de interés' })
+  @ApiProperty({ example: 12, description: 'ID del proyecto de interés (proyectos.id)' })
+  @Type(() => Number)
   @IsInt()
   @IsPositive()
   proyectoId: number;
-
-  @ApiProperty({ example: 'Juan Pérez' })
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(2)
-  nombre: string;
-
-  @ApiProperty({ example: 'juan@example.com' })
-  @IsEmail()
-  email: string;
 }

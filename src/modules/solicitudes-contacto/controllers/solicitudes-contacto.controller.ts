@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { ActualizarGestionSolicitudDto } from '../../../common/dto/actualizar-gestion-solicitud.dto';
+import { FiltrarSolicitudesQueryDto } from '../../../common/dto/filtrar-solicitudes-query.dto';
 import { TokenBearer } from '../../../common/decorators/token-bearer.decorator';
 import { CrearSolicitudContactoDto } from '../dto/crear-solicitud-contacto.dto';
 import { RespuestaSolicitudContactoDto } from '../dto/respuesta-solicitud-contacto.dto';
@@ -19,9 +22,8 @@ export class SolicitudesContactoControlador {
 
   @Post()
   @ApiOperation({
-    summary: 'Enviar formulario de contacto (consultas, reservas, etc.)',
-    description:
-      'Público. Guarda la solicitud en MS Usuarios y envía correo al destinatario interno.',
+    summary: 'Formulario de contacto general (público — proxy → MS Usuarios)',
+    description: 'Sin JWT. Estado inicial: pendiente.',
   })
   @ApiResponse({ status: 201, type: RespuestaSolicitudContactoDto })
   crearSolicitud(@Body() dto: CrearSolicitudContactoDto) {
@@ -30,9 +32,27 @@ export class SolicitudesContactoControlador {
 
   @Get()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Listar solicitudes de contacto (admin, agent)' })
+  @ApiOperation({ summary: 'Panel admin — listar contacto general (proxy → MS Usuarios)' })
+  @ApiQuery({ name: 'estado', required: false, enum: ['pendiente', 'resuelta'] })
   @ApiResponse({ status: 200, type: [RespuestaSolicitudContactoDto] })
-  listarSolicitudes(@TokenBearer() token: string) {
-    return this.solicitudesProxy.listarSolicitudes(token);
+  listarSolicitudes(
+    @Query() filtro: FiltrarSolicitudesQueryDto,
+    @TokenBearer() token: string,
+  ) {
+    return this.solicitudesProxy.listarSolicitudes(token, filtro);
+  }
+
+  @Patch(':id/gestion')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Panel admin — marcar resuelta y registrar observación (proxy → MS Usuarios)',
+  })
+  @ApiResponse({ status: 200, type: RespuestaSolicitudContactoDto })
+  actualizarGestion(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: ActualizarGestionSolicitudDto,
+    @TokenBearer() token: string,
+  ) {
+    return this.solicitudesProxy.actualizarGestion(id, dto, token);
   }
 }

@@ -1,18 +1,21 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EstadoSolicitud } from '../../../common/enums/estado-solicitud.enum';
 
-export class RespuestaSolicitudContactoDto {
-  @ApiProperty({ example: 1 })
+export class RespuestaSolicitudInteresDto {
+  @ApiProperty()
   id: number;
 
-  @ApiProperty({ example: 'María González' })
-  nombreCompleto: string;
+  @ApiProperty()
+  proyectoId: number;
 
-  @ApiProperty({ example: 'maria@example.com' })
+  @ApiProperty()
+  nombre: string;
+
+  @ApiProperty()
   email: string;
 
-  @ApiProperty({ example: 'Quisiera información sobre disponibilidad.' })
-  mensaje: string;
+  @ApiPropertyOptional({ nullable: true })
+  usuarioId: number | null;
 
   @ApiProperty({ enum: EstadoSolicitud, example: EstadoSolicitud.PENDIENTE })
   estado: EstadoSolicitud;
@@ -20,6 +23,6 @@ export class RespuestaSolicitudContactoDto {
   @ApiPropertyOptional({ nullable: true })
   observacionAgente: string | null;
 
-  @ApiProperty({ example: '07-01-2026 20:15:00' })
+  @ApiProperty({ example: '20-06-2025 14:30:45' })
   creadoEn: Date;
 }
