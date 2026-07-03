@@ -8,6 +8,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { EstadoProyecto } from '../../../common/enums/estado-proyecto.enum';
+import { TipoProyecto } from '../../../common/enums/tipo-proyecto.enum';
 
 export class ActualizarProyectoDto {
   @ApiPropertyOptional()
@@ -27,6 +28,11 @@ export class ActualizarProyectoDto {
   @IsString()
   @MaxLength(100)
   comuna?: string;
+
+  @ApiPropertyOptional({ enum: TipoProyecto })
+  @IsOptional()
+  @IsEnum(TipoProyecto)
+  tipo?: TipoProyecto;
 
   @ApiPropertyOptional({ example: '2027-12-31' })
   @IsOptional()
