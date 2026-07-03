@@ -39,7 +39,11 @@ export class FavoritosControlador {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar mis favoritos (proxy → MS Usuarios)' })
+  @ApiOperation({
+    summary: 'Listar mis favoritos (proxy → MS Usuarios)',
+    description:
+      'Devuelve total, proyectoIds y favoritos con agregadoEn (ISO). Datos del proyecto vía POST /proyectos/catalogo.',
+  })
   listar(@TokenBearer() token: string) {
     return this.favoritosProxy.listar(token);
   }

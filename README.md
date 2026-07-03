@@ -83,12 +83,13 @@ En producción con subdominio `api.tudominio.com`, las rutas quedan así: `https
 | Método | Ruta | Descripción |
 |--------|------|-------------|
 | GET | `/agregacion/proyectos/:id/completo` | Proyecto + imágenes + tipologías + equipamiento |
+| POST | `/proyectos/catalogo` | Ficha resumida batch por IDs (favoritos, catálogo) |
 
 El resto de rutas replica la misma estructura que los microservicios (sin prefijo `/api` en ninguna capa: BFF, MS Usuarios y MS Proyectos usan rutas en la raíz):
 
-**MS Usuarios:** usuarios, autenticación, roles, solicitudes de interés, solicitudes de contacto, favoritos.
+**MS Usuarios:** usuarios, autenticación, roles, solicitudes de interés, solicitudes de contacto, favoritos (`GET /favoritos` con `total`, `proyectoIds`, `agregadoEn`).
 
-**MS Proyectos:** proyectos, imágenes, tipologías, imágenes de tipología, equipamiento.
+**MS Proyectos:** proyectos, catálogo batch, imágenes, tipologías, imágenes de tipología, equipamiento.
 
 > Las imágenes en S3 las gestiona **MS Proyectos** (bucket `urbansphere-images`, rutas `proyectos/{id}/galeria/` y `proyectos/{id}/tipologias/{tipologiaId}/`). El BFF solo reenvía la petición; no requiere variables `AWS_*`.
 

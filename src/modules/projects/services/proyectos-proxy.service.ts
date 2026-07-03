@@ -15,6 +15,13 @@ export class ProyectosProxyServicio {
     return this.clienteProyectos.solicitar('GET', '/proyectos', { token });
   }
 
+  consultarCatalogo(ids: number[], token: string) {
+    return this.clienteProyectos.solicitar('POST', '/proyectos/catalogo', {
+      cuerpo: { ids },
+      token,
+    });
+  }
+
   buscarProyectoPorId(id: number, token: string) {
     return this.clienteProyectos.solicitar('GET', `/proyectos/${id}`, { token });
   }

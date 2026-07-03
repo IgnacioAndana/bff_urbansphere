@@ -12,6 +12,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TokenBearer } from '../../../common/decorators/token-bearer.decorator';
 import { ActualizarProyectoDto } from '../dto/actualizar-proyecto.dto';
+import { ConsultarCatalogoDto } from '../dto/consultar-catalogo.dto';
 import { CrearProyectoDto } from '../dto/crear-proyecto.dto';
 import { ProyectosProxyServicio } from '../services/proyectos-proxy.service';
 
@@ -33,6 +34,16 @@ export class ProyectosControlador {
   })
   listarProyectos(@TokenBearer() token: string) {
     return this.proyectosProxy.listarProyectos(token);
+  }
+
+  @Post('catalogo')
+  @ApiOperation({
+    summary: 'Catálogo batch — ficha resumida por lote de IDs (proxy → MS Proyectos)',
+    description:
+      'Para favoritos y listados: devuelve título, tipo, comuna, urlPortada, rangos de tipologías (UF, m², dormitorios) e omitidos (no_encontrado/inactivo).',
+  })
+  consultarCatalogo(@Body() dto: ConsultarCatalogoDto, @TokenBearer() token: string) {
+    return this.proyectosProxy.consultarCatalogo(dto.ids, token);
   }
 
   @Get(':id')
