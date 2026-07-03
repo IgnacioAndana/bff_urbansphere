@@ -14,17 +14,21 @@ export class CrearProyectoImagenDto {
   @Allow()
   etiqueta?: unknown;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    example: false,
+    description:
+      'Opcional (default false). Solo una imagen por proyecto puede ser portada; al marcar una nueva, el MS desmarca la anterior.',
+  })
   @Allow()
   esPortada?: unknown;
-
-  @ApiPropertyOptional({ description: 'Imagen panorámica 360°' })
-  @Allow()
-  esPanoramica360?: unknown;
 
   @ApiPropertyOptional()
   @Allow()
   orden?: unknown;
+
+  /** Campo legacy del front; ya no existe en MS — se acepta pero no se reenvía. */
+  @Allow()
+  esPanoramica360?: unknown;
 }
 
 export class ActualizarProyectoImagenDto {
@@ -45,15 +49,32 @@ export class ActualizarProyectoImagenDto {
   @Allow()
   etiqueta?: unknown;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description:
+      'Si true, esta imagen pasa a ser la portada del proyecto (solo una por proyecto).',
+  })
   @Allow()
   esPortada?: unknown;
 
   @ApiPropertyOptional()
   @Allow()
-  esPanoramica360?: unknown;
-
-  @ApiPropertyOptional()
-  @Allow()
   orden?: unknown;
+
+  @Allow()
+  esPanoramica360?: unknown;
+}
+
+export function cuerpoImagenProyectoParaMs(
+  dto: CrearProyectoImagenDto | ActualizarProyectoImagenDto,
+): Record<string, unknown> {
+  const campos = {
+    urlS3: dto.urlS3,
+    etiqueta: dto.etiqueta,
+    esPortada: dto.esPortada,
+    orden: dto.orden,
+  };
+
+  return Object.fromEntries(
+    Object.entries(campos).filter(([, valor]) => valor !== undefined),
+  );
 }

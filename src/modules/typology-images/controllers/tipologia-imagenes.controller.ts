@@ -18,6 +18,7 @@ import { ClienteProyectosServicio } from '../../../proxy/cliente-proyectos.servi
 import {
   ActualizarTipologiaImagenDto,
   CrearTipologiaImagenDto,
+  cuerpoImagenTipologiaParaMs,
 } from '../dto/tipologia-imagen.dto';
 
 @ApiTags('Imágenes de tipología')
@@ -31,6 +32,8 @@ export class TipologiaImagenesControlador {
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Agregar imagen a tipología, URL o archivo S3 (proxy → MS Proyectos)',
+    description:
+      'Campos: urlS3, esPortada (opcional), orden. Solo una imagen por tipología puede ser portada.',
   })
   crearImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
@@ -42,7 +45,7 @@ export class TipologiaImagenesControlador {
     return this.clienteProyectos.solicitar(
       'POST',
       `/proyectos/${proyectoId}/tipologias/${tipologiaId}/imagenes`,
-      { cuerpo: dto, token, archivo },
+      { cuerpo: cuerpoImagenTipologiaParaMs(dto), token, archivo },
     );
   }
 
@@ -66,6 +69,8 @@ export class TipologiaImagenesControlador {
   @ApiOperation({
     summary:
       'Actualizar imagen de tipología (metadatos JSON o multipart con archivo opcional — proxy → MS Proyectos)',
+    description:
+      'esPortada: al marcar true, el MS desmarca la portada anterior de la misma tipología.',
   })
   actualizarImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
@@ -78,7 +83,7 @@ export class TipologiaImagenesControlador {
     return this.clienteProyectos.solicitar(
       'PATCH',
       `/proyectos/${proyectoId}/tipologias/${tipologiaId}/imagenes/${id}`,
-      { cuerpo: dto, token, archivo },
+      { cuerpo: cuerpoImagenTipologiaParaMs(dto), token, archivo },
     );
   }
 

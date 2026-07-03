@@ -23,6 +23,7 @@ import { ClienteProyectosServicio } from '../../../proxy/cliente-proyectos.servi
 import {
   ActualizarProyectoImagenDto,
   CrearProyectoImagenDto,
+  cuerpoImagenProyectoParaMs,
 } from '../dto/proyecto-imagen.dto';
 
 @ApiTags('Imágenes de proyecto')
@@ -36,6 +37,8 @@ export class ProyectoImagenesControlador {
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Agregar imagen al proyecto, URL o archivo S3 (proxy → MS Proyectos)',
+    description:
+      'Campos: urlS3, etiqueta, esPortada (opcional), orden. Solo una imagen por proyecto puede ser portada.',
   })
   crearImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
@@ -46,7 +49,7 @@ export class ProyectoImagenesControlador {
     return this.clienteProyectos.solicitar(
       'POST',
       `/proyectos/${proyectoId}/imagenes`,
-      { cuerpo: dto, token, archivo },
+      { cuerpo: cuerpoImagenProyectoParaMs(dto), token, archivo },
     );
   }
 
@@ -68,6 +71,8 @@ export class ProyectoImagenesControlador {
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Actualizar imagen (metadatos JSON o multipart con archivo opcional — proxy → MS Proyectos)',
+    description:
+      'esPortada: al marcar true, el MS desmarca la portada anterior del mismo proyecto.',
   })
   actualizarImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
@@ -79,7 +84,7 @@ export class ProyectoImagenesControlador {
     return this.clienteProyectos.solicitar(
       'PATCH',
       `/proyectos/${proyectoId}/imagenes/${id}`,
-      { cuerpo: dto, token, archivo },
+      { cuerpo: cuerpoImagenProyectoParaMs(dto), token, archivo },
     );
   }
 

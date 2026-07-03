@@ -10,17 +10,20 @@ export class CrearTipologiaImagenDto {
   @Allow()
   urlS3?: unknown;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    example: false,
+    description:
+      'Opcional (default false). Solo una imagen por tipología puede ser portada; al marcar una nueva, el MS desmarca la anterior.',
+  })
   @Allow()
   esPortada?: unknown;
 
   @ApiPropertyOptional()
   @Allow()
-  esPanoramica360?: unknown;
-
-  @ApiPropertyOptional()
-  @Allow()
   orden?: unknown;
+
+  @Allow()
+  esPanoramica360?: unknown;
 }
 
 export class ActualizarTipologiaImagenDto {
@@ -37,15 +40,31 @@ export class ActualizarTipologiaImagenDto {
   @Allow()
   urlS3?: unknown;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description:
+      'Si true, esta imagen pasa a ser la portada de la tipología (solo una por tipología).',
+  })
   @Allow()
   esPortada?: unknown;
 
   @ApiPropertyOptional()
   @Allow()
-  esPanoramica360?: unknown;
-
-  @ApiPropertyOptional()
-  @Allow()
   orden?: unknown;
+
+  @Allow()
+  esPanoramica360?: unknown;
+}
+
+export function cuerpoImagenTipologiaParaMs(
+  dto: CrearTipologiaImagenDto | ActualizarTipologiaImagenDto,
+): Record<string, unknown> {
+  const campos = {
+    urlS3: dto.urlS3,
+    esPortada: dto.esPortada,
+    orden: dto.orden,
+  };
+
+  return Object.fromEntries(
+    Object.entries(campos).filter(([, valor]) => valor !== undefined),
+  );
 }
