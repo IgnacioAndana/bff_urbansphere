@@ -25,10 +25,6 @@ export class CrearProyectoImagenDto {
   @ApiPropertyOptional()
   @Allow()
   orden?: unknown;
-
-  /** Campo legacy del front; ya no existe en MS — se acepta pero no se reenvía. */
-  @Allow()
-  esPanoramica360?: unknown;
 }
 
 export class ActualizarProyectoImagenDto {
@@ -59,9 +55,6 @@ export class ActualizarProyectoImagenDto {
   @ApiPropertyOptional()
   @Allow()
   orden?: unknown;
-
-  @Allow()
-  esPanoramica360?: unknown;
 }
 
 export function cuerpoImagenProyectoParaMs(

@@ -21,9 +21,6 @@ export class CrearTipologiaImagenDto {
   @ApiPropertyOptional()
   @Allow()
   orden?: unknown;
-
-  @Allow()
-  esPanoramica360?: unknown;
 }
 
 export class ActualizarTipologiaImagenDto {
@@ -50,9 +47,6 @@ export class ActualizarTipologiaImagenDto {
   @ApiPropertyOptional()
   @Allow()
   orden?: unknown;
-
-  @Allow()
-  esPanoramica360?: unknown;
 }
 
 export function cuerpoImagenTipologiaParaMs(

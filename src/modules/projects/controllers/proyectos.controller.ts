@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TokenBearer } from '../../../common/decorators/token-bearer.decorator';
 import { ActualizarProyectoDto } from '../dto/actualizar-proyecto.dto';
 import { CrearProyectoDto } from '../dto/crear-proyecto.dto';
@@ -37,6 +37,8 @@ export class ProyectosControlador {
 
   @Get(':id')
   @ApiOperation({ summary: 'Obtener proyecto por ID (proxy → MS Proyectos)' })
+  @ApiResponse({ status: 200, description: 'Proyecto encontrado' })
+  @ApiResponse({ status: 404, description: 'Proyecto no encontrado' })
   buscarProyectoPorId(
     @Param('id', ParseIntPipe) id: number,
     @TokenBearer() token: string,

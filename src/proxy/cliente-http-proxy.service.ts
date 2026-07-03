@@ -75,7 +75,7 @@ export class ClienteHttpProxyServicio {
 
       if (respuesta.status >= 400) {
         throw new HttpException(
-          respuesta.data ?? respuesta.statusText,
+          this.extraerMensajeError(respuesta.data) ?? respuesta.statusText,
           respuesta.status,
         );
       }
@@ -92,9 +92,34 @@ export class ClienteHttpProxyServicio {
       );
 
       throw new HttpException(
-        axiosError.response?.data ?? 'Error al comunicarse con el microservicio',
+        this.extraerMensajeError(axiosError.response?.data) ??
+          'Error al comunicarse con el microservicio',
         axiosError.response?.status ?? 502,
       );
     }
+  }
+
+  private extraerMensajeError(data: unknown): string | object | undefined {
+    if (data === null || data === undefined) {
+      return undefined;
+    }
+
+    if (typeof data === 'string') {
+      return data;
+    }
+
+    if (typeof data === 'object') {
+      const cuerpo = data as Record<string, unknown>;
+
+      if (typeof cuerpo.mensaje === 'string') {
+        return cuerpo.mensaje;
+      }
+
+      if (typeof cuerpo.message === 'string') {
+        return cuerpo.message;
+      }
+    }
+
+    return data as object;
   }
 }

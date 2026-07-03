@@ -16,6 +16,7 @@ import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOperation,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { TokenBearer } from '../../../common/decorators/token-bearer.decorator';
@@ -54,7 +55,13 @@ export class ProyectoImagenesControlador {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar imágenes del proyecto (proxy → MS Proyectos)' })
+  @ApiOperation({
+    summary: 'Listar imágenes del proyecto (proxy → MS Proyectos)',
+    description:
+      '200 [] si el proyecto existe y no tiene imágenes. 404 si el proyecto no existe.',
+  })
+  @ApiResponse({ status: 200, description: 'Lista de imágenes (puede ser vacía)' })
+  @ApiResponse({ status: 404, description: 'Proyecto no encontrado' })
   listarImagenes(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @TokenBearer() token: string,
