@@ -1,5 +1,4 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
@@ -8,10 +7,8 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UploadedFile,
-  UseInterceptors,
+  Req,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -19,7 +16,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { TokenBearer } from '../../../common/decorators/token-bearer.decorator';
+import { esMultipart } from '../../../common/utils/es-multipart.util';
 import { ClienteProyectosServicio } from '../../../proxy/cliente-proyectos.service';
 import {
   ActualizarProyectoImagenDto,
@@ -34,24 +33,27 @@ export class ProyectoImagenesControlador {
   constructor(private readonly clienteProyectos: ClienteProyectosServicio) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('archivo'))
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Agregar imagen al proyecto, URL o archivo S3 (proxy → MS Proyectos)',
     description:
-      'Campos: urlS3, etiqueta, esPortada (opcional), orden. Solo una imagen por proyecto puede ser portada.',
+      'Multipart: reenvía el body tal cual (campo archivo). JSON: urlS3, etiqueta, esPortada, orden.',
   })
   crearImagen(
+    @Req() peticion: Request,
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
-    @Body() dto: CrearProyectoImagenDto,
     @TokenBearer() token: string,
-    @UploadedFile() archivo?: Express.Multer.File,
   ) {
-    return this.clienteProyectos.solicitar(
-      'POST',
-      `/proyectos/${proyectoId}/imagenes`,
-      { cuerpo: cuerpoImagenProyectoParaMs(dto), token, archivo },
-    );
+    const ruta = `/proyectos/${proyectoId}/imagenes`;
+
+    if (esMultipart(peticion)) {
+      return this.clienteProyectos.reenviarMultipart('POST', ruta, peticion, token);
+    }
+
+    return this.clienteProyectos.solicitar('POST', ruta, {
+      cuerpo: cuerpoImagenProyectoParaMs(peticion.body as CrearProyectoImagenDto),
+      token,
+    });
   }
 
   @Get()
@@ -74,25 +76,28 @@ export class ProyectoImagenesControlador {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('archivo'))
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Actualizar imagen (metadatos JSON o multipart con archivo opcional — proxy → MS Proyectos)',
     description:
-      'esPortada: al marcar true, el MS desmarca la portada anterior del mismo proyecto.',
+      'Multipart: reenvía el body tal cual. esPortada: al marcar true, el MS desmarca la portada anterior.',
   })
   actualizarImagen(
+    @Req() peticion: Request,
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: ActualizarProyectoImagenDto,
     @TokenBearer() token: string,
-    @UploadedFile() archivo?: Express.Multer.File,
   ) {
-    return this.clienteProyectos.solicitar(
-      'PATCH',
-      `/proyectos/${proyectoId}/imagenes/${id}`,
-      { cuerpo: cuerpoImagenProyectoParaMs(dto), token, archivo },
-    );
+    const ruta = `/proyectos/${proyectoId}/imagenes/${id}`;
+
+    if (esMultipart(peticion)) {
+      return this.clienteProyectos.reenviarMultipart('PATCH', ruta, peticion, token);
+    }
+
+    return this.clienteProyectos.solicitar('PATCH', ruta, {
+      cuerpo: cuerpoImagenProyectoParaMs(peticion.body as ActualizarProyectoImagenDto),
+      token,
+    });
   }
 
   @Delete(':id')

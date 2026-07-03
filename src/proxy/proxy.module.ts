@@ -10,12 +10,16 @@ import { ClienteHttpProxyServicio } from './cliente-http-proxy.service';
 import { ClienteProyectosServicio } from './cliente-proyectos.service';
 import { ClienteUsuariosServicio } from './cliente-usuarios.service';
 
+const LIMITE_SUBIDA = 10 * 1024 * 1024;
+
 @Global()
 @Module({
   imports: [
     HttpModule.register({
-      timeout: 30000,
+      timeout: 60000,
       maxRedirects: 3,
+      maxBodyLength: LIMITE_SUBIDA,
+      maxContentLength: LIMITE_SUBIDA,
     }),
   ],
   providers: [

@@ -7,6 +7,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Method } from 'axios';
+import { Request } from 'express';
 import { ClienteHttpProxyServicio } from './cliente-http-proxy.service';
 
 @Injectable()
@@ -18,6 +19,21 @@ export class ClienteProyectosServicio {
 
   private get urlBase(): string {
     return this.configServicio.get<string>('microservices.proyectosUrl')!;
+  }
+
+  reenviarMultipart<T>(
+    metodo: Method,
+    ruta: string,
+    peticion: Request,
+    token?: string,
+  ): Promise<T> {
+    return this.proxy.reenviarMultipart<T>({
+      baseUrl: this.urlBase,
+      metodo,
+      ruta: ruta.startsWith('/') ? ruta : `/${ruta}`,
+      peticion,
+      token,
+    });
   }
 
   solicitar<T>(
