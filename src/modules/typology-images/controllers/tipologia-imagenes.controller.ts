@@ -52,7 +52,11 @@ export class TipologiaImagenesControlador {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar imágenes de tipología (proxy → MS Proyectos)' })
+  @ApiOperation({
+    summary: 'Listar imágenes de tipología (proxy → MS Proyectos)',
+    description:
+      '200 [] si la tipología existe y no tiene imágenes. 404 si el proyecto o la tipología no existen.',
+  })
   listarImagenes(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @Param('tipologiaId', ParseIntPipe) tipologiaId: number,
