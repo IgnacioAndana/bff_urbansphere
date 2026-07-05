@@ -1,6 +1,6 @@
 # Informe de pruebas — BFF UrbanSphere
 
-> Generado automáticamente el **2026-07-05 20:22:30 UTC**.  
+> Generado automáticamente el **2026-07-05 20:27:20 UTC**.  
 > Comando: `npm run test:report`
 
 ## Resumen ejecutivo
