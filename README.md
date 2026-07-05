@@ -125,6 +125,21 @@ El resto de rutas replica la misma estructura que los microservicios (sin prefij
 | `npm run build` | Compilar a `dist/` |
 | `npm run start:prod` | Ejecutar build de producción |
 | `npm run lint` | ESLint |
+| `npm run test` | Tests unitarios (Jest) |
+| `npm run test:cov` | Tests con cobertura en consola + HTML |
+| `npm run test:report` | Informe Markdown/JSON para evidencia del curso |
+
+---
+
+## Tests
+
+```bash
+npm run test:report
+```
+
+Evidencia generada en `docs/evidencia/informe-pruebas.md` y `coverage/lcov-report/index.html`.
+
+**Alcance:** proxy HTTP, agregación de proyecto completo, controladores representativos (público/privado, multipart) y filtro de errores. La lógica de negocio se valida en MS Usuarios y MS Proyectos.
 
 ---
 

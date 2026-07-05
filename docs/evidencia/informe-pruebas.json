@@ -1,0 +1,167 @@
+{
+  "generadoEn": "2026-07-05 20:22:30",
+  "exito": true,
+  "tests": {
+    "pasados": 36,
+    "total": 36,
+    "suites": 8
+  },
+  "cobertura": {
+    "statements": {
+      "total": 172,
+      "covered": 169,
+      "skipped": 0,
+      "pct": 98.25
+    },
+    "branches": {
+      "total": 47,
+      "covered": 43,
+      "skipped": 0,
+      "pct": 91.48
+    },
+    "functions": {
+      "total": 32,
+      "covered": 30,
+      "skipped": 0,
+      "pct": 93.75
+    },
+    "lines": {
+      "total": 158,
+      "covered": 155,
+      "skipped": 0,
+      "pct": 98.1
+    }
+  },
+  "grupos": [
+    {
+      "modulo": "common/filters/filtro-excepciones-http.filter.ts",
+      "cobertura": {
+        "statements": 100,
+        "branches": 83.33,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "common/utils/es-multipart.util.ts",
+      "cobertura": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "modules/agregacion/controllers",
+      "cobertura": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "modules/agregacion/services",
+      "cobertura": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "modules/project-images/controllers",
+      "cobertura": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "modules/projects/controllers",
+      "cobertura": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "modules/solicitudes-contacto/controllers",
+      "cobertura": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    {
+      "modulo": "proxy/cliente-http-proxy.service.ts",
+      "cobertura": {
+        "statements": 95.52,
+        "branches": 91.89,
+        "functions": 75,
+        "lines": 95.38
+      }
+    }
+  ],
+  "archivos": [
+    {
+      "ruta": "common/filters/filtro-excepciones-http.filter.ts",
+      "statements": 100,
+      "branches": 83.33,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "common/utils/es-multipart.util.ts",
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "modules/agregacion/controllers/agregacion.controller.ts",
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "modules/agregacion/services/agregacion.service.ts",
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "modules/project-images/controllers/proyecto-imagenes.controller.ts",
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "modules/projects/controllers/proyectos.controller.ts",
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "modules/solicitudes-contacto/controllers/solicitudes-contacto.controller.ts",
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    {
+      "ruta": "proxy/cliente-http-proxy.service.ts",
+      "statements": 95.52,
+      "branches": 91.89,
+      "functions": 75,
+      "lines": 95.38
+    }
+  ]
+}
