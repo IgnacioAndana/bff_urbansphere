@@ -74,7 +74,9 @@ MS Usuarios   MS Proyectos
   (3001)         (3002)
 ```
 
-El BFF **no tiene base de datos**. Reenvía las peticiones HTTP a los microservicios y propaga el header `Authorization: Bearer <token>`.
+El BFF **no tiene base de datos**. Reenvía las peticiones HTTP a los microservicios y propaga el header `Authorization: Bearer <token>` cuando el cliente lo envía.
+
+**Consultas públicas (sin JWT):** catálogo de proyectos (`GET /proyectos`, `POST /proyectos/catalogo`, `GET /proyectos/:id`), imágenes, tipologías, equipamiento y agregación (`GET /agregacion/proyectos/:id/completo`). Las mutaciones (POST/PATCH/DELETE/PUT) siguen requiriendo JWT con rol admin o agent.
 
 ### Endpoints de agregación (valor añadido del BFF)
 

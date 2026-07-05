@@ -22,11 +22,11 @@ import {
 
 @ApiTags('Imágenes de tipología')
 @Controller('proyectos/:proyectoId/tipologias/:tipologiaId/imagenes')
-@ApiBearerAuth()
 export class TipologiaImagenesControlador {
   constructor(private readonly clienteProyectos: ClienteProyectosServicio) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Agregar imagen a tipología, URL o archivo S3 (proxy → MS Proyectos)',
@@ -53,14 +53,14 @@ export class TipologiaImagenesControlador {
 
   @Get()
   @ApiOperation({
-    summary: 'Listar imágenes de tipología (proxy → MS Proyectos)',
+    summary: 'Listar imágenes de tipología (público — proxy → MS Proyectos)',
     description:
       '200 [] si la tipología existe y no tiene imágenes. 404 si el proyecto o la tipología no existen.',
   })
   listarImagenes(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @Param('tipologiaId', ParseIntPipe) tipologiaId: number,
-    @TokenBearer() token: string,
+    @TokenBearer() token?: string,
   ) {
     return this.clienteProyectos.solicitar(
       'GET',
@@ -70,6 +70,7 @@ export class TipologiaImagenesControlador {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary:
@@ -97,6 +98,7 @@ export class TipologiaImagenesControlador {
 
   @Delete(':id')
   @HttpCode(204)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar imagen de tipología (proxy → MS Proyectos)' })
   async eliminarImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,

@@ -28,11 +28,11 @@ import {
 
 @ApiTags('Imágenes de proyecto')
 @Controller('proyectos/:proyectoId/imagenes')
-@ApiBearerAuth()
 export class ProyectoImagenesControlador {
   constructor(private readonly clienteProyectos: ClienteProyectosServicio) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Agregar imagen al proyecto, URL o archivo S3 (proxy → MS Proyectos)',
@@ -58,7 +58,7 @@ export class ProyectoImagenesControlador {
 
   @Get()
   @ApiOperation({
-    summary: 'Listar imágenes del proyecto (proxy → MS Proyectos)',
+    summary: 'Listar imágenes del proyecto (público — proxy → MS Proyectos)',
     description:
       '200 [] si el proyecto existe y no tiene imágenes. 404 si el proyecto no existe.',
   })
@@ -66,7 +66,7 @@ export class ProyectoImagenesControlador {
   @ApiResponse({ status: 404, description: 'Proyecto no encontrado' })
   listarImagenes(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
-    @TokenBearer() token: string,
+    @TokenBearer() token?: string,
   ) {
     return this.clienteProyectos.solicitar(
       'GET',
@@ -76,6 +76,7 @@ export class ProyectoImagenesControlador {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @ApiConsumes('multipart/form-data', 'application/json')
   @ApiOperation({
     summary: 'Actualizar imagen (metadatos JSON o multipart con archivo opcional — proxy → MS Proyectos)',
@@ -102,6 +103,7 @@ export class ProyectoImagenesControlador {
 
   @Delete(':id')
   @HttpCode(204)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar imagen (proxy → MS Proyectos)' })
   async eliminarImagen(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,

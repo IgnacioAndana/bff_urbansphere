@@ -19,11 +19,11 @@ import {
 
 @ApiTags('Tipologías')
 @Controller('proyectos/:proyectoId/tipologias')
-@ApiBearerAuth()
 export class TipologiasControlador {
   constructor(private readonly clienteProyectos: ClienteProyectosServicio) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear tipología (admin, agent — proxy → MS Proyectos)' })
   crearTipologia(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
@@ -37,10 +37,10 @@ export class TipologiasControlador {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar tipologías (proxy → MS Proyectos)' })
+  @ApiOperation({ summary: 'Listar tipologías (público — proxy → MS Proyectos)' })
   listarTipologias(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
-    @TokenBearer() token: string,
+    @TokenBearer() token?: string,
   ) {
     return this.clienteProyectos.solicitar('GET', `/proyectos/${proyectoId}/tipologias`, {
       token,
@@ -48,11 +48,11 @@ export class TipologiasControlador {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obtener tipología por ID (proxy → MS Proyectos)' })
+  @ApiOperation({ summary: 'Obtener tipología por ID (público — proxy → MS Proyectos)' })
   buscarTipologia(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
     @Param('id', ParseIntPipe) id: number,
-    @TokenBearer() token: string,
+    @TokenBearer() token?: string,
   ) {
     return this.clienteProyectos.solicitar(
       'GET',
@@ -62,6 +62,7 @@ export class TipologiasControlador {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar tipología (admin, agent — proxy → MS Proyectos)' })
   actualizarTipologia(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
@@ -78,6 +79,7 @@ export class TipologiasControlador {
 
   @Delete(':id')
   @HttpCode(204)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar tipología (admin, agent — proxy → MS Proyectos)' })
   async eliminarTipologia(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,

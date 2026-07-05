@@ -6,15 +6,14 @@ import { ActualizarProyectoEquipamientoDto } from '../dto/proyecto-equipamiento.
 
 @ApiTags('Equipamiento de proyecto')
 @Controller('proyectos/:proyectoId/equipamiento')
-@ApiBearerAuth()
 export class ProyectoEquipamientoControlador {
   constructor(private readonly clienteProyectos: ClienteProyectosServicio) {}
 
   @Get()
-  @ApiOperation({ summary: 'Obtener equipamiento del proyecto (proxy → MS Proyectos)' })
+  @ApiOperation({ summary: 'Obtener equipamiento del proyecto (público — proxy → MS Proyectos)' })
   obtenerEquipamiento(
     @Param('proyectoId', ParseIntPipe) proyectoId: number,
-    @TokenBearer() token: string,
+    @TokenBearer() token?: string,
   ) {
     return this.clienteProyectos.solicitar('GET', `/proyectos/${proyectoId}/equipamiento`, {
       token,
@@ -22,6 +21,7 @@ export class ProyectoEquipamientoControlador {
   }
 
   @Put()
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Actualizar equipamiento (admin, agent — proxy → MS Proyectos)',
   })

@@ -16,7 +16,7 @@ export class AgregacionServicio {
     private readonly clienteProyectos: ClienteProyectosServicio,
   ) {}
 
-  async obtenerProyectoCompleto(id: number, token: string) {
+  async obtenerProyectoCompleto(id: number, token?: string) {
     const proyecto = (await this.proyectosProxy.buscarProyectoPorId(
       id,
       token,

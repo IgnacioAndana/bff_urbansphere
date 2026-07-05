@@ -11,18 +11,18 @@ export class ProyectosProxyServicio {
     return this.clienteProyectos.solicitar('POST', '/proyectos', { cuerpo: dto, token });
   }
 
-  listarProyectos(token: string) {
+  listarProyectos(token?: string) {
     return this.clienteProyectos.solicitar('GET', '/proyectos', { token });
   }
 
-  consultarCatalogo(ids: number[], token: string) {
+  consultarCatalogo(ids: number[], token?: string) {
     return this.clienteProyectos.solicitar('POST', '/proyectos/catalogo', {
       cuerpo: { ids },
       token,
     });
   }
 
-  buscarProyectoPorId(id: number, token: string) {
+  buscarProyectoPorId(id: number, token?: string) {
     return this.clienteProyectos.solicitar('GET', `/proyectos/${id}`, { token });
   }
 

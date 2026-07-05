@@ -18,11 +18,11 @@ import { ProyectosProxyServicio } from '../services/proyectos-proxy.service';
 
 @ApiTags('Proyectos')
 @Controller('proyectos')
-@ApiBearerAuth()
 export class ProyectosControlador {
   constructor(private readonly proyectosProxy: ProyectosProxyServicio) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear proyecto (admin, agent — proxy → MS Proyectos)' })
   crearProyecto(@Body() dto: CrearProyectoDto, @TokenBearer() token: string) {
     return this.proyectosProxy.crearProyecto(dto, token);
@@ -30,34 +30,39 @@ export class ProyectosControlador {
 
   @Get()
   @ApiOperation({
-    summary: 'Listar proyectos (user: solo activos — proxy → MS Proyectos)',
+    summary: 'Listar proyectos (público: solo activos — proxy → MS Proyectos)',
+    description: 'Sin JWT devuelve solo activos. Con JWT admin/agent incluye todos los estados.',
   })
-  listarProyectos(@TokenBearer() token: string) {
+  listarProyectos(@TokenBearer() token?: string) {
     return this.proyectosProxy.listarProyectos(token);
   }
 
   @Post('catalogo')
   @ApiOperation({
-    summary: 'Catálogo batch — ficha resumida por lote de IDs (proxy → MS Proyectos)',
+    summary: 'Catálogo batch — ficha resumida por lote de IDs (público — proxy → MS Proyectos)',
     description:
-      'Para favoritos y listados: devuelve título, tipo, comuna, urlPortada, rangos de tipologías (UF, m², dormitorios) e omitidos (no_encontrado/inactivo).',
+      'Sin JWT: solo proyectos activos. Con JWT admin/agent incluye inactivos. Devuelve título, tipo, comuna, urlPortada, rangos de tipologías e omitidos.',
   })
-  consultarCatalogo(@Body() dto: ConsultarCatalogoDto, @TokenBearer() token: string) {
+  consultarCatalogo(@Body() dto: ConsultarCatalogoDto, @TokenBearer() token?: string) {
     return this.proyectosProxy.consultarCatalogo(dto.ids, token);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obtener proyecto por ID (proxy → MS Proyectos)' })
+  @ApiOperation({
+    summary: 'Obtener proyecto por ID (público — proxy → MS Proyectos)',
+    description: 'Sin JWT: solo proyectos activos. Con JWT admin/agent incluye cualquier estado.',
+  })
   @ApiResponse({ status: 200, description: 'Proyecto encontrado' })
   @ApiResponse({ status: 404, description: 'Proyecto no encontrado' })
   buscarProyectoPorId(
     @Param('id', ParseIntPipe) id: number,
-    @TokenBearer() token: string,
+    @TokenBearer() token?: string,
   ) {
     return this.proyectosProxy.buscarProyectoPorId(id, token);
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar proyecto (admin, agent — proxy → MS Proyectos)' })
   actualizarProyecto(
     @Param('id', ParseIntPipe) id: number,
@@ -69,6 +74,7 @@ export class ProyectosControlador {
 
   @Delete(':id')
   @HttpCode(204)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar proyecto (admin, agent — proxy → MS Proyectos)' })
   async eliminarProyecto(
     @Param('id', ParseIntPipe) id: number,
